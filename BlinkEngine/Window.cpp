@@ -4,8 +4,12 @@
 #include "Window.h"
 
 #include "BasicInputBox.h"
+#include "Circle.h"
+#include "Image.h"
 #include "Widget.h"
 #include "Shape.h"
+
+#include <sstream>
 
 // -----------------------------------------------------------------------------
 
@@ -50,31 +54,28 @@ Blink::Window::~Window()
 
 int Blink::Window::handle(int pEvent)
 {
-	switch (pEvent)
-	{
-	case FL_KEYBOARD:
+	// return 1 == event was handled
+
+	if (pEvent == FL_KEYBOARD)
 	{
 		switch (Fl::event_key())
 		{
-		case '`':
+			case 223:	// back tick
 			{
-				//show the command console
+				// show the command console
 				mCommandConsole->show();
-				return 1; // event was handled
+				return 1;
 			}
-		case FL_Enter:
-		{
-			//close the command console
-			mCommandConsole->hide();
-			return 1; // event was handled
+			case FL_Enter:
+			{
+				// close the command console
+				// triggers callback on mCommandConsole
+				mCommandConsole->hide();
+				return 1;
+			}
+			default:
+				break;
 		}
-		default:
-			break;
-		}
-	}
-	default:
-		// pass other events to base class
-		return Fl_Window::handle(pEvent);
 	}
 
 	return Fl_Window::handle(pEvent);
@@ -84,12 +85,45 @@ int Blink::Window::handle(int pEvent)
 
 void Blink::Window::onTextEnteredInCommanConsole()
 {
+	using namespace std;
 	// triggers when enter is pressed
 	// grab whats in the box now
-	std::string grabString = mCommandConsole->getString();
+	const string grabString = mCommandConsole->getString();
 
-	// do something based on the string
-	std::string newstring = grabString;
+	// break up into whitespace separated components
+	stringstream ss;
+	ss << grabString;
+
+	// horribly hacky at the moment
+	string temp;
+	ss >> temp;
+
+	// get the x value
+	int x = 0;
+	ss >> x;
+
+	// get the y value
+	int y = 0;
+	ss >> y;
+
+	if (temp == "r.drawCircle")
+	{
+		// get the radius
+		int r = 0;
+		ss >> r;
+
+		// now draw the circle
+		attach(new Blink::Circle(Point(x, y), r));
+	}
+	else if (temp == "r.drawImage")
+	{
+		// filename
+		string filename;
+		ss >> filename;
+			
+		// what image?
+		attach(new Blink::Image(Point(x, y), filename));
+	}
 }
 
 // -----------------------------------------------------------------------------

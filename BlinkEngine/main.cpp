@@ -20,7 +20,11 @@ int main()
 {
 	using namespace Blink;
 
-	Blink::Window window(Point(0, 0), 500, 500, "Blink Engine");
+	// console commands:
+	// r.drawCircle xValue yValue Radius
+	// r.drawImage  xValue yValue filename.encoding
+
+	Blink::Window window(Point(0, 0), 650, 600, "Blink Engine");
 	
 	return Fl::run();
 }

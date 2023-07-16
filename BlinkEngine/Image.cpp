@@ -72,42 +72,23 @@ Blink::Image::Image(Point pXY, int pWidth, int pHeight, std::string pFilename, S
 	, mCropWidth(0)
 	, mCropHeight(0)
 	, mBox(mPoint.asIntX(), mPoint.asIntY(), mWidth, mHeight)
+	, mImage(nullptr)
 {
-	// somewhat over elaborate constructor
-	// because errors related to image files can be such a pain to debug
+	init(pFilename, pEncoding);
+}
 
-	using namespace Blink;
+// -----------------------------------------------------------------------------
 
-	if (!ImagePrivate::canOpen(pFilename))
-	{
-		std::cout << "Image(): Error opening file.\n";
-		return;
-	}
-
-	if (pEncoding == Suffix::eNONE)
-	{
-		pEncoding = ImagePrivate::getEncoding(pFilename);
-	}
-
-	switch (pEncoding)
-	{
-	case Suffix::eJPG:
-		mImage = new Fl_JPEG_Image(pFilename.c_str());
-		break;
-	case Suffix::eGIF:
-		mImage = new Fl_GIF_Image(pFilename.c_str());
-		break;
-	case Suffix::ePNG:
-		mImage = new Fl_PNG_Image(pFilename.c_str());
-		break;
-	case Suffix::eBMP:
-		mImage = new Fl_BMP_Image(pFilename.c_str());
-		break;
-	default:	// Unsupported image encoding
-		std::cout << "Image(): Unsupported file type.\n";
-	}
-
-	mBox.image(mImage);
+Blink::Image::Image(Point pXY, std::string pFilename, Suffix::Encoding pEncoding /*= Suffix::eNONE*/)
+	: mPoint(pXY)
+	, mWidth(0)
+	, mHeight(0)
+	, mCropWidth(0)
+	, mCropHeight(0)
+	, mBox(mPoint.asIntX(), mPoint.asIntY(), 0, 0)
+	, mImage(nullptr)
+{
+	init(pFilename, pEncoding);
 }
 
 // -----------------------------------------------------------------------------
@@ -142,6 +123,47 @@ void Blink::Image::setMask(Point pXY, int pWidth, int pHeight)
 void Blink::Image::drawPoint(double pX, double pY)
 {
 	mImage->draw(int(pX), int(pY));
+}
+
+// -----------------------------------------------------------------------------
+
+void Blink::Image::init(std::string pFilename, Suffix::Encoding pEncoding)
+{
+	// somewhat over elaborate constructor
+// because errors related to image files can be such a pain to debug
+
+	using namespace Blink;
+
+	if (!ImagePrivate::canOpen(pFilename))
+	{
+		std::cout << "Image(): Error opening file.\n";
+		return;
+	}
+
+	if (pEncoding == Suffix::eNONE)
+	{
+		pEncoding = ImagePrivate::getEncoding(pFilename);
+	}
+
+	switch (pEncoding)
+	{
+	case Suffix::eJPG:
+		mImage = new Fl_JPEG_Image(pFilename.c_str());
+		break;
+	case Suffix::eGIF:
+		mImage = new Fl_GIF_Image(pFilename.c_str());
+		break;
+	case Suffix::ePNG:
+		mImage = new Fl_PNG_Image(pFilename.c_str());
+		break;
+	case Suffix::eBMP:
+		mImage = new Fl_BMP_Image(pFilename.c_str());
+		break;
+	default:	// Unsupported image encoding
+		std::cout << "Image(): Unsupported file type.\n";
+	}
+
+	mBox.image(mImage);
 }
 
 // -----------------------------------------------------------------------------

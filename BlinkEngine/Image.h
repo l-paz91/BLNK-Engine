@@ -41,6 +41,7 @@ namespace Blink
 	{
 	public:
 		Image(Point pXY, int pWidth, int pHeight, std::string pFilename, Suffix::Encoding pEncoding = Suffix::eNONE);
+		Image(Point pXY, std::string pFilename, Suffix::Encoding pEncoding = Suffix::eNONE);
 		~Image() { delete mImage; }
 
 		virtual void draw() override;
@@ -53,6 +54,8 @@ namespace Blink
 		const double getHeight() const { return mImage->h(); }
 
 	private:
+		void init(std::string pFilename, Suffix::Encoding pEncoding = Suffix::eNONE);
+
 		Point mPoint;
 		int mWidth;
 		int mHeight;
