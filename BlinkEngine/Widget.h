@@ -11,8 +11,11 @@
 // -----------------------------------------------------------------------------
 
 //--INCLUDES--//
+#include "BlinkCallback.h"
+#include "Point.h"
 #include "Window.h"
 
+#include <Fl/Fl_Widget.H>
 #include <string>
 
 // -----------------------------------------------------------------------------
@@ -21,40 +24,27 @@ namespace Blink
 {
 	// -----------------------------------------------------------------------------
 
-	// Address is a synonym for void*
-	typedef void* Address;
-
-	// FLTKs required function type for all callbacks	
-	typedef void(*Callback)(Address, Address);
-
-	// -----------------------------------------------------------------------------
-
-	template<typename T>
-	T& referenceTo(Address pObject)
-	{
-		// treat an Address as a reference to a T object
-		return *static_cast<T*>(pObject);
-	}
-
-	// -----------------------------------------------------------------------------
-
 	class Widget
 	{
 	public:
 		Widget(Point pXY, int pWidth, int pHeight, const std::string& pLabel, Callback pCallback);
+		~Widget();
 
+		// Fl_Widget interface
 		virtual void move(int pNewX, int pNewY);
 		virtual void hide();
 		virtual void show();
 		virtual void attach(Window& pWindow) = 0;
+		int takeFocus();
+		// ~Fl_Widget Interface
 
 	protected:
 		Window* mWindow;		// every Widget belongs to a Window
 		Fl_Widget* mFlWidget;	// connection to a FLTK Widget
 
 		std::string mLabel;
-		Point mLocation;
 		Callback mCallback;
+		Point mLocation;
 		int mWidth;
 		int mHeight;
 

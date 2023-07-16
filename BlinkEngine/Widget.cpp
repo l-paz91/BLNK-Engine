@@ -6,13 +6,26 @@
 // -----------------------------------------------------------------------------
 
 Blink::Widget::Widget(Point pXY, int pWidth, int pHeight, const std::string& pLabel, Callback pCallback)
-	: mLabel(pLabel)
+	: mWindow(nullptr)
+	, mFlWidget(nullptr)
+	, mLabel(pLabel)
 	, mLocation(pXY)
 	, mCallback(pCallback)
 	, mWidth(pWidth)
 	, mHeight(pHeight)
 {
 
+}
+
+// -----------------------------------------------------------------------------
+
+Blink::Widget::~Widget()
+{
+	if (mFlWidget)
+	{
+		delete mFlWidget;
+		mFlWidget = nullptr;
+	}
 }
 
 // -----------------------------------------------------------------------------
@@ -39,6 +52,13 @@ void Blink::Widget::hide()
 void Blink::Widget::show()
 {
 	mFlWidget->show();
+}
+
+// -----------------------------------------------------------------------------
+
+int Blink::Widget::takeFocus()
+{
+	return mFlWidget->take_focus();
 }
 
 // -----------------------------------------------------------------------------

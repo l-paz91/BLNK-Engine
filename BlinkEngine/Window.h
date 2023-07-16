@@ -13,17 +13,20 @@
 // -----------------------------------------------------------------------------
 
 //--INCLUDES--//
-#include "fltk.h"
 #include "Point.h"
 
+#include <Fl/Fl.H>
+#include <Fl/Fl_Window.H>
+#include <Fl/Fl_Widget.H>
 #include <vector>
 
 // -----------------------------------------------------------------------------
 
 namespace Blink
 {
-	class Shape;
+	class BasicInputBox;
 	class Widget;
+	class Shape;
 
 	// -----------------------------------------------------------------------------
 
@@ -32,7 +35,14 @@ namespace Blink
 	public:
 		Window(int pX, int pY, const char* pLabel);	// let the system pick the location
 		Window(const Point& pPoint, int pWidth, int pHeight, const char* pLabel);
-		virtual ~Window() {}
+		virtual ~Window();
+
+		// Fl_Window Interface
+		virtual int handle(int pEvent) override;
+		// ~Fl_Window Interface
+
+		// actions
+		void onTextEnteredInCommanConsole();
 
 		const int getWidth() const { return mWidth; }
 		const int getHeight() const { return mHeight; }
@@ -50,6 +60,7 @@ namespace Blink
 		void detach(Widget& pWidget);
 
 		void attach(Shape& pShape);
+		void attach(Shape* pShape);
 		void detach(Shape& pShape);
 
 	protected:
@@ -59,6 +70,7 @@ namespace Blink
 		void init();
 
 		std::vector<Shape*> mShapes;
+		BasicInputBox* mCommandConsole;
 
 		int mWidth;
 		int mHeight;

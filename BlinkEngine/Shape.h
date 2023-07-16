@@ -16,6 +16,7 @@
 // -----------------------------------------------------------------------------
 
 //--INCLUDES--//
+#include "Colour.h"
 #include "Point.h"
 
 #include <vector>
@@ -27,15 +28,27 @@ namespace Blink
 	class Shape
 	{
 	public:
+		Shape();
 		virtual void draw() = 0;
 		~Shape() {}
+
+		Colour fillColour() const { return mFillColour; }
+		Colour lineColour() const { return mLineColour; }
 
 	protected:
 		void addPoint(Point pPoint) { mPoints.push_back(pPoint); }
 		const Point atPoint(int pIndex) const { return mPoints[pIndex]; }
 
+		enum class Directions 
+		{
+			N, S, E, W, CENTER, NE, SE, SW, NW
+		};
+		virtual Point getPointDirection(Directions d);
+
 	private:
 		std::vector<Point> mPoints;	// not used by all shapes
+		Colour mFillColour;
+		Colour mLineColour;
 	};
 }
 

@@ -90,6 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,6 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,11 +145,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicInputBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Image.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -162,7 +176,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicButton.h" />
+    <ClInclude Include="BasicInputBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BlinkCallback.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Colour.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ConsoleManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DebugFunctions.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DrawingCircles.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -1,30 +1,25 @@
 // -----------------------------------------------------------------------------
-// https://lptcp.blogspot.com/
-// 
-/*
-	Blink Engine
-	
-	Basically a wrapper around FLTK.
-
-*/
-// https://github.com/l-paz91/
+#ifndef DrawingCircles_H
+#define DrawingCircles_H
 // -----------------------------------------------------------------------------
 
 //--INCLUDES--//
-#include "BasicInputBox.h"
+#include "Circle.h"
 #include "Window.h"
 
 // -----------------------------------------------------------------------------
 
-int main()
+namespace Blink
 {
-	using namespace Blink;
-
-	Blink::Window window(Point(0, 0), 500, 500, "Blink Engine");
-	
-	return Fl::run();
+	void drawSimpleCircle(Window& pWindow)
+	{
+		Circle* circle = new Circle(Point(150, 150), 100);
+		circle->setf
+		pWindow.attach(circle);
+	}
 }
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
+#endif // !DrawingCircles_H
