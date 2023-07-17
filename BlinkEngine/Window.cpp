@@ -9,6 +9,8 @@
 #include "Widget.h"
 #include "Shape.h"
 
+#include <fstream>
+#include <iostream>
 #include <sstream>
 
 // -----------------------------------------------------------------------------
@@ -29,7 +31,7 @@ Blink::Window::Window(const Point& pPoint, int pWidth, int pHeight, const char* 
 	: Fl_Window(int(pPoint.mX), int(pPoint.mY), pWidth, pHeight, pLabel)
 	, mShapes()
 	, mCommandConsole(new BasicInputBox{ Point(100, 10), 300, 30, "Command:",
-		[](Address, Address pAddress) { referenceTo<Window>(pAddress).onTextEnteredInCommanConsole(); } })
+		[](Address, Address pAddress) { referenceTo<Window>(pAddress).onTextEnteredInCommandConsole(); } })
 	, mWidth(pWidth)
 	, mHeight(pHeight)
 {
@@ -83,7 +85,7 @@ int Blink::Window::handle(int pEvent)
 
 // -----------------------------------------------------------------------------
 
-void Blink::Window::onTextEnteredInCommanConsole()
+void Blink::Window::onTextEnteredInCommandConsole()
 {
 	using namespace std;
 	// triggers when enter is pressed
@@ -93,6 +95,10 @@ void Blink::Window::onTextEnteredInCommanConsole()
 	// break up into whitespace separated components
 	stringstream ss;
 	ss << grabString;
+
+	// print string to a debug text file
+	ofstream outputFile( "debugCommandsCalled.txt" , ios::app);
+	outputFile << grabString << '\n';
 
 	// horribly hacky at the moment
 	string temp;

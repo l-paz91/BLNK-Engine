@@ -42,7 +42,7 @@ namespace Blink
 		// ~Fl_Window Interface
 
 		// actions
-		void onTextEnteredInCommanConsole();
+		void onTextEnteredInCommandConsole();
 
 		const int getWidth() const { return mWidth; }
 		const int getHeight() const { return mHeight; }
